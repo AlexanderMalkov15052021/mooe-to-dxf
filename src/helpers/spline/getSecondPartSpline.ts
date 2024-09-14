@@ -1,0 +1,29 @@
+export const getSecondPartSpline = (firstPoint: any, secondPoint: any, thirdPoint: any) => {
+    return (
+`
+ 10
+${firstPoint.x}
+ 20
+${firstPoint.y}
+ 30
+0.0
+ 10
+${secondPoint.x}
+ 20
+${secondPoint.y}
+ 30
+0.0
+ 10
+${thirdPoint.x}
+ 20
+${thirdPoint.y}
+ 30
+0.0
+ 10
+${thirdPoint.x}
+ 20
+${thirdPoint.y}
+ 30
+0.0
+  0`
+)}
