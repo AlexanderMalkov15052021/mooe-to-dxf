@@ -23,7 +23,8 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
     dxf.addLayer("Gate pallets", 4);
     dxf.addLayer("Route", 5);
-    dxf.addLayer("ARC", 3);
+    dxf.addLayer("quadraticSpline", 3);
+    dxf.addLayer("cubicSpline", 12);
 
     straightLines?.map((obj: any) => {
 
