@@ -22,7 +22,13 @@ export const getSplines = (mooe: MooeDoc) => {
         const secondPoint = obj.mLanes[0].mBezierControl;
         const thirdPoint = pointslist[endId].mLaneMarkXYZW;
 
-        const quadraticSpline = getQuadraticSpline(obj.mLanes[0].mLaneID.toString(16), "quadraticSpline", firstPoint, secondPoint, thirdPoint);
+        const quadraticSpline = getQuadraticSpline(
+            obj.mLanes[0].mLaneID.toString(16),
+            "QuadraticSpline",
+            firstPoint,
+            secondPoint,
+            thirdPoint
+        );
 
         const tailPart = quadraticSpline + (index !== quadraticCurveLines.length - 1 ? "\n" : "");
 
@@ -41,7 +47,14 @@ export const getSplines = (mooe: MooeDoc) => {
         const thirdPoint = obj.mLanes[0].m_BezierControl2;
         const fourthPoint = pointslist[endId].mLaneMarkXYZW;
 
-        const cubicSpline = getCubicSpline(obj.mLanes[0].mLaneID.toString(16), "cubicSpline", firstPoint, secondPoint, thirdPoint, fourthPoint);
+        const cubicSpline = getCubicSpline(
+            obj.mLanes[0].mLaneID.toString(16),
+            "CubicSpline",
+            firstPoint,
+            secondPoint,
+            thirdPoint,
+            fourthPoint
+        );
 
         const tailPart = cubicSpline + (index !== cubicCurveLines.length - 1 ? "\n" : "");
 
