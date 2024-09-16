@@ -106,6 +106,7 @@ export type MooeDoc = {
         mStartPosition: { x: any; y: any; z: number; }
         | { x: any; y: any; z: number; };
     }[];
+    mapRotateAngle: number;
 } | null;
 
 export type FieldType = {

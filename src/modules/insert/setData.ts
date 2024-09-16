@@ -1,4 +1,4 @@
-import { scaleCorrection } from "@/constants";
+import { fontSize, scaleCorrection } from "@/constants";
 import { MooeDoc } from "@/types";
 import { DxfWriter, point3d } from "@tarikjabiri/dxf";
 
@@ -43,8 +43,8 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
         const endId = obj.mLanes[0].mEndPos;
 
         dxf.addLine(
-            point3d(pointslist[startId].mLaneMarkXYZW.x, pointslist[startId].mLaneMarkXYZW.y),
-            point3d(pointslist[endId].mLaneMarkXYZW.x, pointslist[endId].mLaneMarkXYZW.y),
+            point3d(pointslist[startId].mLaneMarkXYZW.x / scaleCorrection, pointslist[startId].mLaneMarkXYZW.y / scaleCorrection),
+            point3d(pointslist[endId].mLaneMarkXYZW.x / scaleCorrection, pointslist[endId].mLaneMarkXYZW.y / scaleCorrection),
             { layerName: "Route" }
         );
 
@@ -52,8 +52,8 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
     points.gates.map((obj: any) => {
         dxf.addMText(
-            { x: obj.mLaneMarkXYZW.x, y: obj.mLaneMarkXYZW.y, z: 0 },
-            75 * scaleCorrection,
+            { x: obj.mLaneMarkXYZW.x / scaleCorrection, y: obj.mLaneMarkXYZW.y / scaleCorrection, z: 0 },
+            fontSize,
             obj.mLaneMarkName,
             { layerName: "Gtp" }
         );
@@ -61,8 +61,8 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
     points.pallets.map((obj: any) => {
         dxf.addMText(
-            { x: obj.mLaneMarkXYZW.x, y: obj.mLaneMarkXYZW.y, z: 0 },
-            75 * scaleCorrection,
+            { x: obj.mLaneMarkXYZW.x / scaleCorrection, y: obj.mLaneMarkXYZW.y / scaleCorrection, z: 0 },
+            fontSize,
             obj.mLaneMarkName,
             { layerName: "Pallet points" }
         );
@@ -70,8 +70,8 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
     points.restPoints.map((obj: any) => {
         dxf.addMText(
-            { x: obj.mLaneMarkXYZW.x, y: obj.mLaneMarkXYZW.y, z: 0 },
-            75 * scaleCorrection,
+            { x: obj.mLaneMarkXYZW.x / scaleCorrection, y: obj.mLaneMarkXYZW.y / scaleCorrection, z: 0 },
+            fontSize,
             obj.mLaneMarkName,
             { layerName: "Rest points" }
         );
@@ -79,8 +79,8 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
     points.chargePoints.map((obj: any) => {
         dxf.addMText(
-            { x: obj.mLaneMarkXYZW.x, y: obj.mLaneMarkXYZW.y, z: 0 },
-            75 * scaleCorrection,
+            { x: obj.mLaneMarkXYZW.x / scaleCorrection, y: obj.mLaneMarkXYZW.y / scaleCorrection, z: 0 },
+            fontSize,
             obj.mLaneMarkName,
             { layerName: "Charge points" }
         );

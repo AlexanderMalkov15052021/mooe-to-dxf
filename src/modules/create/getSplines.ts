@@ -1,3 +1,4 @@
+import { scaleCorrection } from "@/constants";
 import { getCubicSpline } from "@/helpers/spline/getCubicSpline";
 import { getQuadraticSpline } from "@/helpers/spline/getQuadraticSpline";
 import { MooeDoc } from "@/types";
@@ -18,9 +19,21 @@ export const getSplines = (mooe: MooeDoc) => {
         const startId = obj.mLanes[0].mStartPos;
         const endId = obj.mLanes[0].mEndPos;
 
-        const firstPoint = pointslist[startId].mLaneMarkXYZW;
-        const secondPoint = obj.mLanes[0].mBezierControl;
-        const thirdPoint = pointslist[endId].mLaneMarkXYZW;
+        const firstPoint = {
+            x: pointslist[startId].mLaneMarkXYZW.x / scaleCorrection,
+            y: pointslist[startId].mLaneMarkXYZW.y / scaleCorrection,
+            z: pointslist[startId].mLaneMarkXYZW.z / scaleCorrection
+        };
+        const secondPoint = {
+            x: obj.mLanes[0].mBezierControl.x / scaleCorrection,
+            y: obj.mLanes[0].mBezierControl.y / scaleCorrection,
+            z: obj.mLanes[0].mBezierControl.z / scaleCorrection
+        };
+        const thirdPoint = {
+            x: pointslist[endId].mLaneMarkXYZW.x / scaleCorrection,
+            y: pointslist[endId].mLaneMarkXYZW.y / scaleCorrection,
+            z: pointslist[endId].mLaneMarkXYZW.z / scaleCorrection
+        };
 
         const quadraticSpline = getQuadraticSpline(
             obj.mLanes[0].mLaneID.toString(16),
@@ -42,10 +55,26 @@ export const getSplines = (mooe: MooeDoc) => {
         const startId = obj.mLanes[0].mStartPos;
         const endId = obj.mLanes[0].mEndPos;
 
-        const firstPoint = pointslist[startId].mLaneMarkXYZW;
-        const secondPoint = obj.mLanes[0].m_BezierControl1;
-        const thirdPoint = obj.mLanes[0].m_BezierControl2;
-        const fourthPoint = pointslist[endId].mLaneMarkXYZW;
+        const firstPoint = {
+            x: pointslist[startId].mLaneMarkXYZW.x / scaleCorrection,
+            y: pointslist[startId].mLaneMarkXYZW.y / scaleCorrection,
+            z: pointslist[startId].mLaneMarkXYZW.z / scaleCorrection
+        };
+        const secondPoint = {
+            x: obj.mLanes[0].m_BezierControl1.x / scaleCorrection,
+            y: obj.mLanes[0].m_BezierControl1.y / scaleCorrection,
+            z: obj.mLanes[0].m_BezierControl1.z / scaleCorrection,
+        };
+        const thirdPoint = {
+            x: obj.mLanes[0].m_BezierControl2.x / scaleCorrection,
+            y: obj.mLanes[0].m_BezierControl2.y / scaleCorrection,
+            z: obj.mLanes[0].m_BezierControl2.z / scaleCorrection,
+        };
+        const fourthPoint = {
+            x: pointslist[endId].mLaneMarkXYZW.x / scaleCorrection,
+            y: pointslist[endId].mLaneMarkXYZW.y / scaleCorrection,
+            z: pointslist[endId].mLaneMarkXYZW.z / scaleCorrection,
+        };
 
         const cubicSpline = getCubicSpline(
             obj.mLanes[0].mLaneID.toString(16),
