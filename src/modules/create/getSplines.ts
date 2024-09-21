@@ -37,7 +37,7 @@ export const getSplines = (mooe: MooeDoc) => {
 
         const quadraticSpline = getQuadraticSpline(
             obj.mLanes[0].mLaneID.toString(16),
-            "QuadraticSpline",
+            "Quadratic spline roads",
             firstPoint,
             secondPoint,
             thirdPoint
@@ -78,7 +78,7 @@ export const getSplines = (mooe: MooeDoc) => {
 
         const cubicSpline = getCubicSpline(
             obj.mLanes[0].mLaneID.toString(16),
-            "CubicSpline",
+            "Cubic spline roads",
             firstPoint,
             secondPoint,
             thirdPoint,

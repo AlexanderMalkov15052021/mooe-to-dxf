@@ -1,4 +1,28 @@
 export type MooeDoc = {
+    mAreas: {
+        mAreaRect: {
+            bottomLeftPoint: {
+                x: number;
+                y: number;
+                z: number;
+            },
+            bottomRightPoint: {
+                x: number;
+                y: number;
+                z: number;
+            },
+            topLeftPoint: {
+                x: number;
+                y: number;
+                z: number;
+            },
+            topRightPoint: {
+                x: number;
+                y: number;
+                z: number;
+            },
+        }
+    }[];
     mLaneMarks: {
         mAvoidPointID?: null;
         mBindRoadGroups?: never[];
@@ -107,6 +131,17 @@ export type MooeDoc = {
         | { x: any; y: any; z: number; };
     }[];
     mapRotateAngle: number;
+    mSceneMap: {
+        mMapAttr: {
+            mMapLength: number;
+            mMapWidth: number;
+            mMapOrigin: {
+                x: number;
+                y: number;
+                z: number;
+            }
+        }
+    }
 } | null;
 
 export type FieldType = {

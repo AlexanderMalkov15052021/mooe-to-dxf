@@ -28,11 +28,7 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
         chargePoints: [],
     });
 
-
-
     const roads = getRoads(mooe, points, pointslist);
-
-
 
     const straightLines = mooe?.mRoads.filter(
         (obj: any) => obj.mLanes[0].mLaneType === 0
@@ -42,19 +38,32 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
             && !roads?.gateRoads.find((roadData: any) => roadData.road.mLanes[0] === obj.mLanes[0])
     );
 
-
-
-    dxf.addLayer("Gtp", 4);
-    dxf.addLayer("Route", 5);
-    dxf.addLayer("QuadraticSpline", 3);
-    dxf.addLayer("CubicSpline", 12);
-    dxf.addLayer("Pallet points", 1);
+    dxf.addLayer("Flow pallets", 4);
+    dxf.addLayer("Straight roads", 5);
+    dxf.addLayer("Quadratic spline roads", 3);
+    dxf.addLayer("Cubic spline roads", 12);
+    dxf.addLayer("Alley pallets", 1);
     dxf.addLayer("Rest points", 30);
     dxf.addLayer("Charge points", 3);
     dxf.addLayer("Pallet roads", 2);
     dxf.addLayer("Rest roads", 6);
     dxf.addLayer("Charge roads", 8);
-    dxf.addLayer("Gate roads", 190);
+    dxf.addLayer("Flow roads", 190);
+    dxf.addLayer("Layer", 22);
+
+    dxf.addRectangle(
+        {
+            x: (mooe?.mSceneMap?.mMapAttr?.mMapOrigin?.x ?? 1) / scaleCorrection
+                + (mooe?.mSceneMap?.mMapAttr?.mMapLength ?? 1) / scaleCorrection,
+            y: (mooe?.mSceneMap?.mMapAttr?.mMapOrigin?.y ?? 1) / scaleCorrection
+        },
+        {
+            x: (mooe?.mSceneMap?.mMapAttr?.mMapOrigin?.x ?? 1) / scaleCorrection,
+            y: (mooe?.mSceneMap?.mMapAttr?.mMapOrigin?.y ?? 1) / scaleCorrection
+                + (mooe?.mSceneMap?.mMapAttr?.mMapWidth ?? 1) / scaleCorrection
+        },
+        { layerName: "Layer" }
+    );
 
     straightLines?.map((obj: any) => {
 
@@ -64,7 +73,7 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
         dxf.addLine(
             point3d(pointslist[startId].mLaneMarkXYZW.x / scaleCorrection, pointslist[startId].mLaneMarkXYZW.y / scaleCorrection),
             point3d(pointslist[endId].mLaneMarkXYZW.x / scaleCorrection, pointslist[endId].mLaneMarkXYZW.y / scaleCorrection),
-            { layerName: "Route" }
+            { layerName: "Straight roads" }
         );
 
     });
@@ -116,7 +125,7 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
         dxf.addLine(
             point3d(pointslist[startId].mLaneMarkXYZW.x / scaleCorrection, pointslist[startId].mLaneMarkXYZW.y / scaleCorrection),
             point3d(pointslist[endId].mLaneMarkXYZW.x / scaleCorrection, pointslist[endId].mLaneMarkXYZW.y / scaleCorrection),
-            { layerName: "Gate roads" }
+            { layerName: "Flow roads" }
         );
 
     });
@@ -126,7 +135,7 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
             { x: obj.mLaneMarkXYZW.x / scaleCorrection, y: obj.mLaneMarkXYZW.y / scaleCorrection, z: 0 },
             fontSize,
             obj.mLaneMarkName,
-            { layerName: "Gtp" }
+            { layerName: "Flow pallets" }
         );
     });
 
@@ -135,7 +144,7 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
             { x: obj.mLaneMarkXYZW.x / scaleCorrection, y: obj.mLaneMarkXYZW.y / scaleCorrection, z: 0 },
             fontSize,
             obj.mLaneMarkName,
-            { layerName: "Pallet points" }
+            { layerName: "Alley pallets" }
         );
     });
 
