@@ -16,8 +16,8 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
         if (obj.mLaneMarkType === 11) {
             obj.mLaneMarkName.includes("rest") && accum.restPoints.push(obj);
             obj.mLaneMarkName.includes("charge") && accum.chargePoints.push(obj);
-            obj.mLaneMarkName.includes("GT") && obj.mLaneMarkName.includes("col") && accum.gates.push(obj);
-            !obj.mLaneMarkName.includes("GT") && obj.mLaneMarkName.includes("col") && accum.pallets.push(obj);
+            obj.mLaneMarkName.includes("GT") && obj.mLaneMarkName.toLowerCase().includes("col") && accum.gates.push(obj);
+            !obj.mLaneMarkName.includes("GT") && obj.mLaneMarkName.toLowerCase().includes("col") && accum.pallets.push(obj);
         }
 
         return accum;
