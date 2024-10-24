@@ -5,13 +5,13 @@ import { getRoads } from "../extract/getRoads";
 
 export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
-    const pointslist = mooe?.mLaneMarks.reduce((accum: any, obj: any) => {
+    const pointslist = mooe?.mLaneMarks?.reduce((accum: any, obj: any) => {
         accum[obj.mLaneMarkID] = obj;
 
         return accum;
     }, {});
 
-    const points = mooe?.mLaneMarks.reduce((accum: any, obj: any) => {
+    const points = mooe?.mLaneMarks?.reduce((accum: any, obj: any) => {
 
         if (obj.mLaneMarkType === 11) {
 
@@ -47,7 +47,7 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
     const roads = getRoads(mooe, points, pointslist);
 
-    const straightLines = mooe?.mRoads.filter(
+    const straightLines = mooe?.mRoads?.filter(
         (obj: any) => obj.mLanes[0].mLaneType === 0
             && !roads?.palletRoads.find((roadData: any) => roadData.road.mLanes[0] === obj.mLanes[0])
             && !roads?.restRoads.find((roadData: any) => roadData.road.mLanes[0] === obj.mLanes[0])
@@ -95,7 +95,7 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
     });
 
-    roads?.palletRoads.map((obj: any) => {
+    roads?.palletRoads?.map((obj: any) => {
 
         const startId = obj.road.mLanes[0].mStartPos;
         const endId = obj.road.mLanes[0].mEndPos;
@@ -108,7 +108,7 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
     });
 
-    roads?.restRoads.map((obj: any) => {
+    roads?.restRoads?.map((obj: any) => {
 
         const startId = obj.road.mLanes[0].mStartPos;
         const endId = obj.road.mLanes[0].mEndPos;
@@ -121,7 +121,7 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
     });
 
-    roads?.chargeRoads.map((obj: any) => {
+    roads?.chargeRoads?.map((obj: any) => {
 
         const startId = obj.road.mLanes[0].mStartPos;
         const endId = obj.road.mLanes[0].mEndPos;
@@ -134,7 +134,7 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
     });
 
-    roads?.gateRoads.map((obj: any) => {
+    roads?.gateRoads?.map((obj: any) => {
 
         const startId = obj.road.mLanes[0].mStartPos;
         const endId = obj.road.mLanes[0].mEndPos;
@@ -147,7 +147,7 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
     });
 
-    points.gates.map((obj: any) => {
+    points?.gates?.map((obj: any) => {
         dxf.addMText(
             { x: obj.mLaneMarkXYZW.x / scaleCorrection, y: obj.mLaneMarkXYZW.y / scaleCorrection, z: 0 },
             fontSize,
@@ -156,7 +156,7 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
         );
     });
 
-    points.pallets.map((obj: any) => {
+    points?.pallets?.map((obj: any) => {
         dxf.addMText(
             { x: obj.mLaneMarkXYZW.x / scaleCorrection, y: obj.mLaneMarkXYZW.y / scaleCorrection, z: 0 },
             fontSize,
@@ -165,7 +165,7 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
         );
     });
 
-    points.restPoints.map((obj: any) => {
+    points?.restPoints?.map((obj: any) => {
         dxf.addMText(
             { x: obj.mLaneMarkXYZW.x / scaleCorrection, y: obj.mLaneMarkXYZW.y / scaleCorrection, z: 0 },
             fontSize,
@@ -174,7 +174,7 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
         );
     });
 
-    points.chargePoints.map((obj: any) => {
+    points?.chargePoints?.map((obj: any) => {
         dxf.addMText(
             { x: obj.mLaneMarkXYZW.x / scaleCorrection, y: obj.mLaneMarkXYZW.y / scaleCorrection, z: 0 },
             fontSize,

@@ -142,10 +142,10 @@ export const getRoads = (mooe: MooeDoc, points: any, pointslist: any) => {
         return roadsAccum;
 
     }, {
-        palletRoads: {},
-        restRoads: {},
-        chargeRoads: {},
-        gateRoads: {}
+        palletRoads: [],
+        restRoads: [],
+        chargeRoads: [],
+        gateRoads: []
     });
 
 }
