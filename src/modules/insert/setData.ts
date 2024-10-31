@@ -37,12 +37,20 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
         }
 
+        if (obj.mLaneMarkType === 5) {
+
+            accum.locationPoints.push(obj);
+            return accum;
+
+        }
+
         return accum;
     }, {
         gates: [],
         pallets: [],
         restPoints: [],
         chargePoints: [],
+        locationPoints: [],
     });
 
     const roads = getRoads(mooe, points, pointslist);
@@ -67,6 +75,8 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
     dxf.addLayer("Charge roads", 8);
     dxf.addLayer("Flow roads", 190);
     dxf.addLayer("Layer", 22);
+    dxf.addLayer("Target points", 70);
+    dxf.addLayer("Bidirectional roads", 120);
 
     dxf.addRectangle(
         {
@@ -87,12 +97,22 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
         const startId = obj.mLanes[0].mStartPos;
         const endId = obj.mLanes[0].mEndPos;
 
-        dxf.addLine(
-            point3d(pointslist[startId].mLaneMarkXYZW.x / scaleCorrection, pointslist[startId].mLaneMarkXYZW.y / scaleCorrection),
-            point3d(pointslist[endId].mLaneMarkXYZW.x / scaleCorrection, pointslist[endId].mLaneMarkXYZW.y / scaleCorrection),
-            { layerName: "Straight roads" }
-        );
+        const dir = obj.mLanes[0].mDirection;
 
+        if (dir === 0) {
+            dxf.addLine(
+                point3d(pointslist[startId].mLaneMarkXYZW.x / scaleCorrection, pointslist[startId].mLaneMarkXYZW.y / scaleCorrection),
+                point3d(pointslist[endId].mLaneMarkXYZW.x / scaleCorrection, pointslist[endId].mLaneMarkXYZW.y / scaleCorrection),
+                { layerName: "Bidirectional roads" }
+            );
+        }
+        else {
+            dxf.addLine(
+                point3d(pointslist[startId].mLaneMarkXYZW.x / scaleCorrection, pointslist[startId].mLaneMarkXYZW.y / scaleCorrection),
+                point3d(pointslist[endId].mLaneMarkXYZW.x / scaleCorrection, pointslist[endId].mLaneMarkXYZW.y / scaleCorrection),
+                { layerName: "Straight roads" }
+            );
+        }
     });
 
     roads?.palletRoads?.map((obj: any) => {
@@ -180,6 +200,18 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
             fontSize,
             obj.mLaneMarkName,
             { layerName: "Charge points" }
+        );
+    });
+
+    points?.locationPoints?.map((obj: any, index: number) => {
+
+        const name = index < 9 ? `Test poin - 0${index + 1}` : `Test poin - ${index + 1}`
+
+        dxf.addMText(
+            { x: obj.mLaneMarkXYZW.x / scaleCorrection, y: obj.mLaneMarkXYZW.y / scaleCorrection, z: 0 },
+            fontSize,
+            name,
+            { layerName: "Target points" }
         );
     });
 
