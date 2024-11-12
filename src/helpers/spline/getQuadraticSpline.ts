@@ -2,7 +2,7 @@ export const getQuadraticSpline = (id: number, layerName: string, firstPoint: an
     return (
 `SPLINE
   5
-${id}
+66697865642069643a20${id}
 330
 57
 100

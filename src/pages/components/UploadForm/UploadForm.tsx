@@ -4,6 +4,7 @@ import { ChangeEvent, FormEvent, useRef } from "react";
 import { DxfWriter } from "@tarikjabiri/dxf";
 import { setData } from "@/modules/insert/setData";
 import { getSplines } from "@/modules/create/getSplines";
+import { getLines } from "@/modules/create/getLines";
 
 const UploadForm = observer(() => {
 
@@ -59,7 +60,21 @@ const UploadForm = observer(() => {
 
                 const splines = getSplines(mooeJson);
 
-                const targetStr = dxfString.replace("ENTITIES\n0", `${splines}`);
+                const lines = getLines(mooeJson);
+
+                const splinesStr = dxfString.replace("ENTITIES\n0", `${splines}`);
+
+                const strParts = splinesStr.split("ENTITIES");
+
+
+
+                const linesTail = strParts[1].replace("0\nENDSEC", `${lines}`);
+
+
+
+                const targetStr = strParts[0] + "ENTITIES" + linesTail;
+
+                // console.log(targetStr);
 
                 setDoc(targetStr);
 

@@ -55,13 +55,13 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
     const roads = getRoads(mooe, points, pointslist);
 
-    const straightLines = mooe?.mRoads?.filter(
-        (obj: any) => obj.mLanes[0].mLaneType === 0
-            && !roads?.palletRoads.find((roadData: any) => roadData.road.mLanes[0] === obj.mLanes[0])
-            && !roads?.restRoads.find((roadData: any) => roadData.road.mLanes[0] === obj.mLanes[0])
-            && !roads?.chargeRoads.find((roadData: any) => roadData.road.mLanes[0] === obj.mLanes[0])
-            && !roads?.gateRoads.find((roadData: any) => roadData.road.mLanes[0] === obj.mLanes[0])
-    );
+    // const straightLines = mooe?.mRoads?.filter(
+    //     (obj: any) => obj.mLanes[0].mLaneType === 0
+    //         && !roads?.palletRoads.find((roadData: any) => roadData.road.mLanes[0] === obj.mLanes[0])
+    //         && !roads?.restRoads.find((roadData: any) => roadData.road.mLanes[0] === obj.mLanes[0])
+    //         && !roads?.chargeRoads.find((roadData: any) => roadData.road.mLanes[0] === obj.mLanes[0])
+    //         && !roads?.gateRoads.find((roadData: any) => roadData.road.mLanes[0] === obj.mLanes[0])
+    // );
 
     dxf.addLayer("Flow pallets", 4);
     dxf.addLayer("Straight roads", 5);
@@ -81,41 +81,41 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
     dxf.addRectangle(
         {
             x: (mooe?.mSceneMap?.mMapAttr?.mMapOrigin?.x ?? 1) / scaleCorrection
-                + (mooe?.mSceneMap?.mMapAttr?.mMapWidth ?? 1) / scaleCorrection,
+                + (mooe?.mSceneMap?.mMapAttr?.mMapLength ?? 1) / scaleCorrection,
 
             y: (mooe?.mSceneMap?.mMapAttr?.mMapOrigin?.y ?? 1) / scaleCorrection
         },
         {
             x: (mooe?.mSceneMap?.mMapAttr?.mMapOrigin?.x ?? 1) / scaleCorrection,
-            
+
             y: (mooe?.mSceneMap?.mMapAttr?.mMapOrigin?.y ?? 1) / scaleCorrection
-                + (mooe?.mSceneMap?.mMapAttr?.mMapLength ?? 1) / scaleCorrection
+                + (mooe?.mSceneMap?.mMapAttr?.mMapWidth ?? 1) / scaleCorrection
         },
         { layerName: "Layer" }
     );
 
-    straightLines?.map((obj: any) => {
+    // straightLines?.map((obj: any) => {
 
-        const startId = obj.mLanes[0].mStartPos;
-        const endId = obj.mLanes[0].mEndPos;
+    //     const startId = obj.mLanes[0].mStartPos;
+    //     const endId = obj.mLanes[0].mEndPos;
 
-        const dir = obj.mLanes[0].mDirection;
+    //     const dir = obj.mLanes[0].mDirection;
 
-        if (dir === 0) {
-            dxf.addLine(
-                point3d(pointslist[startId].mLaneMarkXYZW.x / scaleCorrection, pointslist[startId].mLaneMarkXYZW.y / scaleCorrection),
-                point3d(pointslist[endId].mLaneMarkXYZW.x / scaleCorrection, pointslist[endId].mLaneMarkXYZW.y / scaleCorrection),
-                { layerName: "Bidirectional roads" }
-            );
-        }
-        else {
-            dxf.addLine(
-                point3d(pointslist[startId].mLaneMarkXYZW.x / scaleCorrection, pointslist[startId].mLaneMarkXYZW.y / scaleCorrection),
-                point3d(pointslist[endId].mLaneMarkXYZW.x / scaleCorrection, pointslist[endId].mLaneMarkXYZW.y / scaleCorrection),
-                { layerName: "Straight roads" }
-            );
-        }
-    });
+    //     if (dir === 0) {
+    //         dxf.addLine(
+    //             point3d(pointslist[startId].mLaneMarkXYZW.x / scaleCorrection, pointslist[startId].mLaneMarkXYZW.y / scaleCorrection),
+    //             point3d(pointslist[endId].mLaneMarkXYZW.x / scaleCorrection, pointslist[endId].mLaneMarkXYZW.y / scaleCorrection),
+    //             { layerName: "Bidirectional roads" }
+    //         );
+    //     }
+    //     else {
+    //         dxf.addLine(
+    //             point3d(pointslist[startId].mLaneMarkXYZW.x / scaleCorrection, pointslist[startId].mLaneMarkXYZW.y / scaleCorrection),
+    //             point3d(pointslist[endId].mLaneMarkXYZW.x / scaleCorrection, pointslist[endId].mLaneMarkXYZW.y / scaleCorrection),
+    //             { layerName: "Straight roads" }
+    //         );
+    //     }
+    // });
 
     roads?.palletRoads?.map((obj: any) => {
 
