@@ -1,9 +1,9 @@
-export const getLine = (id: number, layerName: string, startPoint: any, endPoint: any) => {
+export const getLine = (roadId: string, LaneId: string, layerName: string, startPoint: any, endPoint: any) => {
     return (
 `0
 LINE
 5
-66697865642069643a20${id}
+66697865642069643a20${roadId}20${LaneId}
 330
 C
 100

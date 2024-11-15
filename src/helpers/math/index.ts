@@ -53,6 +53,21 @@ export const getNewCoords = (x: number, y: number, angle: number) => {
     const newX = Math.cos(angle) * x - Math.sin(angle) * y;
     const newY = Math.sin(angle) * x + Math.cos(angle) * y;
 
-    return {x: newX, y: newY}
+    return { x: newX, y: newY }
+}
+
+// декодировать hex в строку
+export const getStrFromHex = (hex: string) => {
+    const encodeArr = hex.match(/.{1,2}/g);
+    const encodeStr = encodeArr ? encodeArr.join('%') : "";
+
+    return decodeURIComponent('%' + encodeStr);
+}
+
+// декодировать сьроку в hex
+export const getHexFromStr = (str: string) => {
+    const encoder = new TextEncoder();
+
+    return Array.from(encoder.encode(str)).map(b => b.toString(16).padStart(2, '0')).join('')
 }
 

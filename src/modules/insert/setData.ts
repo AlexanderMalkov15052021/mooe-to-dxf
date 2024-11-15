@@ -1,15 +1,15 @@
 import { fontSize, scaleCorrection } from "@/constants";
 import { MooeDoc } from "@/types";
-import { DxfWriter, point3d } from "@tarikjabiri/dxf";
-import { getRoads } from "../extract/getRoads";
+import { DxfWriter } from "@tarikjabiri/dxf";
+// import { getRoads } from "../extract/getRoads";
 
 export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
-    const pointslist = mooe?.mLaneMarks?.reduce((accum: any, obj: any) => {
-        accum[obj.mLaneMarkID] = obj;
+    // const pointslist = mooe?.mLaneMarks?.reduce((accum: any, obj: any) => {
+    //     accum[obj.mLaneMarkID] = obj;
 
-        return accum;
-    }, {});
+    //     return accum;
+    // }, {});
 
     const points = mooe?.mLaneMarks?.reduce((accum: any, obj: any) => {
 
@@ -53,7 +53,7 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
         locationPoints: [],
     });
 
-    const roads = getRoads(mooe, points, pointslist);
+    // const roads = getRoads(mooe, points, pointslist);
 
     // const straightLines = mooe?.mRoads?.filter(
     //     (obj: any) => obj.mLanes[0].mLaneType === 0
@@ -117,57 +117,57 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
     //     }
     // });
 
-    roads?.palletRoads?.map((obj: any) => {
+    // roads?.palletRoads?.map((obj: any) => {
 
-        const startId = obj.road.mLanes[0].mStartPos;
-        const endId = obj.road.mLanes[0].mEndPos;
+    //     const startId = obj.road.mLanes[0].mStartPos;
+    //     const endId = obj.road.mLanes[0].mEndPos;
 
-        dxf.addLine(
-            point3d(pointslist[startId].mLaneMarkXYZW.x / scaleCorrection, pointslist[startId].mLaneMarkXYZW.y / scaleCorrection),
-            point3d(pointslist[endId].mLaneMarkXYZW.x / scaleCorrection, pointslist[endId].mLaneMarkXYZW.y / scaleCorrection),
-            { layerName: "Pallet roads" }
-        );
+    //     dxf.addLine(
+    //         point3d(pointslist[startId].mLaneMarkXYZW.x / scaleCorrection, pointslist[startId].mLaneMarkXYZW.y / scaleCorrection),
+    //         point3d(pointslist[endId].mLaneMarkXYZW.x / scaleCorrection, pointslist[endId].mLaneMarkXYZW.y / scaleCorrection),
+    //         { layerName: "Pallet roads" }
+    //     );
 
-    });
+    // });
 
-    roads?.restRoads?.map((obj: any) => {
+    // roads?.restRoads?.map((obj: any) => {
 
-        const startId = obj.road.mLanes[0].mStartPos;
-        const endId = obj.road.mLanes[0].mEndPos;
+    //     const startId = obj.road.mLanes[0].mStartPos;
+    //     const endId = obj.road.mLanes[0].mEndPos;
 
-        dxf.addLine(
-            point3d(pointslist[startId].mLaneMarkXYZW.x / scaleCorrection, pointslist[startId].mLaneMarkXYZW.y / scaleCorrection),
-            point3d(pointslist[endId].mLaneMarkXYZW.x / scaleCorrection, pointslist[endId].mLaneMarkXYZW.y / scaleCorrection),
-            { layerName: "Rest roads" }
-        );
+    //     dxf.addLine(
+    //         point3d(pointslist[startId].mLaneMarkXYZW.x / scaleCorrection, pointslist[startId].mLaneMarkXYZW.y / scaleCorrection),
+    //         point3d(pointslist[endId].mLaneMarkXYZW.x / scaleCorrection, pointslist[endId].mLaneMarkXYZW.y / scaleCorrection),
+    //         { layerName: "Rest roads" }
+    //     );
 
-    });
+    // });
 
-    roads?.chargeRoads?.map((obj: any) => {
+    // roads?.chargeRoads?.map((obj: any) => {
 
-        const startId = obj.road.mLanes[0].mStartPos;
-        const endId = obj.road.mLanes[0].mEndPos;
+    //     const startId = obj.road.mLanes[0].mStartPos;
+    //     const endId = obj.road.mLanes[0].mEndPos;
 
-        dxf.addLine(
-            point3d(pointslist[startId].mLaneMarkXYZW.x / scaleCorrection, pointslist[startId].mLaneMarkXYZW.y / scaleCorrection),
-            point3d(pointslist[endId].mLaneMarkXYZW.x / scaleCorrection, pointslist[endId].mLaneMarkXYZW.y / scaleCorrection),
-            { layerName: "Charge roads" }
-        );
+    //     dxf.addLine(
+    //         point3d(pointslist[startId].mLaneMarkXYZW.x / scaleCorrection, pointslist[startId].mLaneMarkXYZW.y / scaleCorrection),
+    //         point3d(pointslist[endId].mLaneMarkXYZW.x / scaleCorrection, pointslist[endId].mLaneMarkXYZW.y / scaleCorrection),
+    //         { layerName: "Charge roads" }
+    //     );
 
-    });
+    // });
 
-    roads?.gateRoads?.map((obj: any) => {
+    // roads?.gateRoads?.map((obj: any) => {
 
-        const startId = obj.road.mLanes[0].mStartPos;
-        const endId = obj.road.mLanes[0].mEndPos;
+    //     const startId = obj.road.mLanes[0].mStartPos;
+    //     const endId = obj.road.mLanes[0].mEndPos;
 
-        dxf.addLine(
-            point3d(pointslist[startId].mLaneMarkXYZW.x / scaleCorrection, pointslist[startId].mLaneMarkXYZW.y / scaleCorrection),
-            point3d(pointslist[endId].mLaneMarkXYZW.x / scaleCorrection, pointslist[endId].mLaneMarkXYZW.y / scaleCorrection),
-            { layerName: "Flow roads" }
-        );
+    //     dxf.addLine(
+    //         point3d(pointslist[startId].mLaneMarkXYZW.x / scaleCorrection, pointslist[startId].mLaneMarkXYZW.y / scaleCorrection),
+    //         point3d(pointslist[endId].mLaneMarkXYZW.x / scaleCorrection, pointslist[endId].mLaneMarkXYZW.y / scaleCorrection),
+    //         { layerName: "Flow roads" }
+    //     );
 
-    });
+    // });
 
     points?.gates?.map((obj: any) => {
         dxf.addMText(
