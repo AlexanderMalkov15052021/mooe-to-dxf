@@ -5,6 +5,7 @@ import { DxfWriter } from "@tarikjabiri/dxf";
 import { setData } from "@/modules/insert/setData";
 import { getSplines } from "@/modules/create/getSplines";
 import { getLines } from "@/modules/create/getLines";
+import { getTextPoints } from "@/modules/create/getTextPoints";
 
 const UploadForm = observer(() => {
 
@@ -58,23 +59,26 @@ const UploadForm = observer(() => {
 
                 const dxfString = newDXF.stringify();
 
+
                 const splines = getSplines(mooeJson);
 
                 const lines = getLines(mooeJson);
+
+                const textPoints = getTextPoints(mooeJson);
+
 
                 const splinesStr = dxfString.replace("ENTITIES\n0", `${splines}`);
 
                 const strParts = splinesStr.split("ENTITIES");
 
+                const textsTail = strParts[1].replace("ENDSEC", `${textPoints}`);
 
 
-                const linesTail = strParts[1].replace("0\nENDSEC", `${lines}`);
-
+                const linesTail = textsTail.replace("ENDSEC", `${lines}`);
 
 
                 const targetStr = strParts[0] + "ENTITIES" + linesTail;
 
-                // console.log(targetStr);
 
                 setDoc(targetStr);
 

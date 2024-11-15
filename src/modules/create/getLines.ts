@@ -236,7 +236,7 @@ export const getLines = (mooe: MooeDoc) => {
     const allRoadsStr = `${targetStraightRoads}${targetRestRoads}${targetPalletRoads}${targetGateRoads}${targetChargeRoads}`;
 
 
-    const targetRoads = allRoadsStr ? `${allRoadsStr}0\nENDSEC` : "0\nENDSEC";
+    const targetRoads = allRoadsStr ? `${allRoadsStr}ENDSEC` : "ENDSEC";
 
     return targetRoads;
 }
