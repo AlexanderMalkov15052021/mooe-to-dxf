@@ -1,4 +1,5 @@
 import { scaleCorrection } from "@/constants";
+import { getHexFromStr } from "@/helpers/math";
 import { getCubicSpline } from "@/helpers/spline/getCubicSpline";
 import { getQuadraticSpline } from "@/helpers/spline/getQuadraticSpline";
 import { MooeDoc } from "@/types";
@@ -36,7 +37,8 @@ export const getSplines = (mooe: MooeDoc) => {
         };
 
         const quadraticSpline = getQuadraticSpline(
-            obj.mLanes[0].mLaneID.toString(16),
+            getHexFromStr(obj.mRoadID),
+            getHexFromStr(obj.mLanes[0].mLaneID),
             "Quadratic spline roads",
             firstPoint,
             secondPoint,
@@ -77,7 +79,8 @@ export const getSplines = (mooe: MooeDoc) => {
         };
 
         const cubicSpline = getCubicSpline(
-            obj.mLanes[0].mLaneID.toString(16),
+            getHexFromStr(obj.mRoadID),
+            getHexFromStr(obj.mLanes[0].mLaneID),
             "Cubic spline roads",
             firstPoint,
             secondPoint,

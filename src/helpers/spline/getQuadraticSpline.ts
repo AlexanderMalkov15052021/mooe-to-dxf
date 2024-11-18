@@ -1,8 +1,8 @@
-export const getQuadraticSpline = (id: number, layerName: string, firstPoint: any, secondPoint: any, thirdPoint: any) => {
+export const getQuadraticSpline = (roadId: string, LaneId: string, layerName: string, firstPoint: any, secondPoint: any, thirdPoint: any) => {
     return (
 `SPLINE
   5
-66697865642069643a20${id}
+66697865642069643a20${roadId}20${LaneId}
 330
 57
 100
