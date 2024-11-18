@@ -1,10 +1,12 @@
 import { correctionCubicSpline, overturn } from "@/constants"
 
-export const getCubicSpline = (id: number, layerName: string, firstPoint: any, secondPoint: any, thirdPoint: any, fourthPoint: any) => {
+export const getCubicSpline = (
+  roadId: string, LaneId: string, layerName: string, firstPoint: any, secondPoint: any, thirdPoint: any, fourthPoint: any
+) => {
   return (
 `SPLINE
   5
-${id}
+66697865642069643a20${roadId}20${LaneId}
 330
 57
 100
