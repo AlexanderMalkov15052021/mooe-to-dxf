@@ -3,6 +3,23 @@ import { MooeDoc } from "@/types";
 import { DxfWriter, point3d } from "@tarikjabiri/dxf";
 import { getRoads } from "../extract/getRoads";
 
+const getDXFLine = (dxf: DxfWriter, dir: number, startId: number, endId: number, pointslist: any) => {
+    if (dir === 0) {
+        return dxf.addLine(
+            point3d(pointslist[startId].mLaneMarkXYZW.x / scaleCorrection, pointslist[startId].mLaneMarkXYZW.y / scaleCorrection),
+            point3d(pointslist[endId].mLaneMarkXYZW.x / scaleCorrection, pointslist[endId].mLaneMarkXYZW.y / scaleCorrection),
+            { layerName: "Bidirectional roads" }
+        );
+    }
+    else {
+        return dxf.addLine(
+            point3d(pointslist[startId].mLaneMarkXYZW.x / scaleCorrection, pointslist[startId].mLaneMarkXYZW.y / scaleCorrection),
+            point3d(pointslist[endId].mLaneMarkXYZW.x / scaleCorrection, pointslist[endId].mLaneMarkXYZW.y / scaleCorrection),
+            { layerName: "Straight roads" }
+        );
+    }
+}
+
 export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
     const pointslist = mooe?.mLaneMarks?.reduce((accum: any, obj: any) => {
@@ -99,20 +116,13 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
         const dir = obj.mLanes[0].mDirection;
 
-        if (dir === 0) {
-            dxf.addLine(
-                point3d(pointslist[startId].mLaneMarkXYZW.x / scaleCorrection, pointslist[startId].mLaneMarkXYZW.y / scaleCorrection),
-                point3d(pointslist[endId].mLaneMarkXYZW.x / scaleCorrection, pointslist[endId].mLaneMarkXYZW.y / scaleCorrection),
-                { layerName: "Bidirectional roads" }
-            );
-        }
-        else {
-            dxf.addLine(
-                point3d(pointslist[startId].mLaneMarkXYZW.x / scaleCorrection, pointslist[startId].mLaneMarkXYZW.y / scaleCorrection),
-                point3d(pointslist[endId].mLaneMarkXYZW.x / scaleCorrection, pointslist[endId].mLaneMarkXYZW.y / scaleCorrection),
-                { layerName: "Straight roads" }
-            );
-        }
+        const line = getDXFLine(dxf, dir, startId, endId, pointslist);
+
+        const appId = dxf.tables.addAppId(`Line - ${line.handle}`);
+
+        const xdataTest = line.addXData(appId.name);
+
+        xdataTest.string(`fixed id: ${line.handle} ${obj.mRoadID} ${obj.mLanes[0].mLaneID}`);
     });
 
     roads?.palletRoads?.map((obj: any) => {
