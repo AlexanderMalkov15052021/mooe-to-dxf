@@ -1,4 +1,4 @@
-export const getQuadraticSpline = (id: number, layerName: string, firstPoint: any, secondPoint: any, thirdPoint: any) => {
+export const getQuadraticSpline = (id: string, layerName: string, firstPoint: any, secondPoint: any, thirdPoint: any) => {
     return (
 `SPLINE
   5
