@@ -1,4 +1,4 @@
-import { scaleCorrection } from "@/constants";
+import { maxDecimalIndex, scaleCorrection } from "@/constants";
 import { getCubicSpline } from "@/helpers/spline/getCubicSpline";
 import { getQuadraticSpline } from "@/helpers/spline/getQuadraticSpline";
 import { MooeDoc } from "@/types";
@@ -13,6 +13,13 @@ export const getSplines = (mooe: MooeDoc) => {
 
         return accum;
     }, {});
+
+
+
+    const finalQuadraticCurveIndex = maxDecimalIndex;
+
+    const finalCubicCurveIndex = maxDecimalIndex - (quadraticCurveLines?.length ?? 0);
+
 
     const quadraticSplines = quadraticCurveLines?.reduce((accum: any, obj: any, index: number) => {
 
@@ -35,8 +42,10 @@ export const getSplines = (mooe: MooeDoc) => {
             z: pointslist[endId].mLaneMarkXYZW.z / scaleCorrection
         };
 
+        const targetIndex = (finalQuadraticCurveIndex - index).toString(16);
+
         const quadraticSpline = getQuadraticSpline(
-            obj.mLanes[0].mLaneID.toString(16),
+            targetIndex,
             "Quadratic spline roads",
             firstPoint,
             secondPoint,
@@ -76,8 +85,10 @@ export const getSplines = (mooe: MooeDoc) => {
             z: pointslist[endId].mLaneMarkXYZW.z / scaleCorrection,
         };
 
+        const targetIndex = (finalCubicCurveIndex - index).toString(16);
+
         const cubicSpline = getCubicSpline(
-            obj.mLanes[0].mLaneID.toString(16),
+            targetIndex,
             "Cubic spline roads",
             firstPoint,
             secondPoint,
