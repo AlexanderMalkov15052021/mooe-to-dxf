@@ -120,9 +120,9 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
         const appId = dxf.tables.addAppId(`Line - ${line.handle}`);
 
-        const xdataTest = line.addXData(appId.name);
+        const xData = line.addXData(appId.name);
 
-        xdataTest.string(`fixed id: ${line.handle} ${obj.mRoadID} ${obj.mLanes[0].mLaneID}`);
+        xData.string(`fixed id: ${line.handle} ${obj.mRoadID} ${obj.mLanes[0].mLaneID} `);
     });
 
     roads?.palletRoads?.map((obj: any) => {

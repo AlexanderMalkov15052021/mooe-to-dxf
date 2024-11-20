@@ -56,3 +56,17 @@ export const getNewCoords = (x: number, y: number, angle: number) => {
     return {x: newX, y: newY}
 }
 
+// декодировать hex в строку
+export const getStrFromHex = (hex: string) => {
+    const encodeArr = hex.match(/.{1,2}/g);
+    const encodeStr = encodeArr ? encodeArr.join('%') : "";
+
+    return decodeURIComponent('%' + encodeStr);
+}
+
+// декодировать строку в hex
+export const getHexFromStr = (str: string) => {
+    const encoder = new TextEncoder();
+
+    return Array.from(encoder.encode(str)).map(b => b.toString(16).padStart(2, '0')).join('')
+}
