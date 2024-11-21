@@ -1,5 +1,5 @@
 import { fontSize, scaleCorrection } from "@/constants";
-import { MooeDoc } from "@/types";
+import { laneMark, MooeDoc, Points } from "@/types";
 import { DxfWriter, point3d } from "@tarikjabiri/dxf";
 import { getRoads } from "../extract/getRoads";
 
@@ -28,7 +28,37 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
         return accum;
     }, {});
 
-    const points = mooe?.mLaneMarks?.reduce((accum: any, obj: any) => {
+    const points: Points = mooe?.mLaneMarks?.reduce((accum: any, obj: any) => {
+        if (obj.mLaneMarkType === 2) {
+            if (obj.mLaneMarkName.toLowerCase().includes("rest") && obj.mLaneMarkName.toLowerCase().includes("检")) {
+                accum.targetRestPoints.push(obj);
+                return accum;
+            }
+
+            if (obj.mLaneMarkName.toLowerCase().includes("rest") && obj.mLaneMarkName.toLowerCase().includes("前置点")) {
+                accum.turningRestPoints.push(obj);
+                return accum;
+            }
+
+            if (!obj.mLaneMarkName.toLowerCase().includes("gt") && obj.mLaneMarkName.toLowerCase().includes("检")) {
+                accum.targetPalletsPoints.push(obj);
+                return accum;
+            }
+
+            if (!obj.mLaneMarkName.toLowerCase().includes("gt") && obj.mLaneMarkName.toLowerCase().includes("前置点")) {
+                accum.turningPalletsPoints.push(obj);
+                return accum;
+            }
+        }
+
+        if (obj.mLaneMarkType === 9) {
+
+            if (!obj.mLaneMarkName.toLowerCase().includes("gt") && obj.mLaneMarkName.toLowerCase().includes("识别")) {
+                accum.cachePalletsPoints.push(obj);
+                return accum;
+            }
+
+        }
 
         if (obj.mLaneMarkType === 11) {
 
@@ -65,7 +95,12 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
     }, {
         gates: [],
         pallets: [],
+        targetPalletsPoints: [],
+        turningPalletsPoints: [],
+        cachePalletsPoints: [],
         restPoints: [],
+        targetRestPoints: [],
+        turningRestPoints: [],
         chargePoints: [],
         locationPoints: [],
     });
@@ -186,22 +221,41 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
         );
     });
 
-    points?.pallets?.map((obj: any) => {
-        dxf.addMText(
-            { x: obj.mLaneMarkXYZW.x / scaleCorrection, y: obj.mLaneMarkXYZW.y / scaleCorrection, z: 0 },
+    points?.pallets?.map((pallet: any) => {
+        const mText = dxf.addMText(
+            { x: pallet.mLaneMarkXYZW.x / scaleCorrection, y: pallet.mLaneMarkXYZW.y / scaleCorrection, z: 0 },
             fontSize,
-            obj.mLaneMarkName,
+            pallet.mLaneMarkName,
             { layerName: "Alley pallets" }
         );
+
+        const targetPalletsPoint = points.targetPalletsPoints.find(point => point.mLaneMarkName.includes(pallet.mLaneMarkName));
+        const cachePalletsPoint = points.cachePalletsPoints.find(point => point.mLaneMarkName.includes(pallet.mLaneMarkName));
+        const turningPalletsPoint = points.turningPalletsPoints.find(point => point.mLaneMarkName.includes(pallet.mLaneMarkName));
+
+        const appId = dxf.tables.addAppId(`MText - ${mText.handle}`);
+
+        const xData = mText.addXData(appId.name);
+
+        xData.string(`fixed id: ${mText.handle} ${pallet?.mLaneMarkID} ${targetPalletsPoint?.mLaneMarkID} ${cachePalletsPoint?.mLaneMarkID} ${turningPalletsPoint?.mLaneMarkID} `);
     });
 
-    points?.restPoints?.map((obj: any) => {
-        dxf.addMText(
-            { x: obj.mLaneMarkXYZW.x / scaleCorrection, y: obj.mLaneMarkXYZW.y / scaleCorrection, z: 0 },
+    points?.restPoints?.map((rest: laneMark) => {
+        const mText = dxf.addMText(
+            { x: rest.mLaneMarkXYZW.x / scaleCorrection, y: rest.mLaneMarkXYZW.y / scaleCorrection, z: 0 },
             fontSize,
-            obj.mLaneMarkName,
+            rest.mLaneMarkName,
             { layerName: "Rest points" }
         );
+
+        const targetRestPoint = points.targetRestPoints.find(point => point.mLaneMarkName.includes(rest.mLaneMarkName));
+        const turningRestPoint = points.turningRestPoints.find(point => point.mLaneMarkName.includes(rest.mLaneMarkName));
+
+        const appId = dxf.tables.addAppId(`MText - ${mText.handle}`);
+
+        const xData = mText.addXData(appId.name);
+
+        xData.string(`fixed id: ${mText.handle} ${rest?.mLaneMarkID} ${targetRestPoint?.mLaneMarkID} ${turningRestPoint?.mLaneMarkID} `);
     });
 
     points?.chargePoints?.map((obj: any) => {
