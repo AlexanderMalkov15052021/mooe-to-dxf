@@ -2,8 +2,9 @@ import { maxDecimalIndex, scaleCorrection } from "@/constants";
 import { getCubicSpline } from "@/helpers/spline/getCubicSpline";
 import { getQuadraticSpline } from "@/helpers/spline/getQuadraticSpline";
 import { MooeDoc } from "@/types";
+import { DxfWriter } from "@tarikjabiri/dxf";
 
-export const getSplines = (mooe: MooeDoc) => {
+export const getSplines = (mooe: MooeDoc, newDXF: DxfWriter) => {
 
     const quadraticCurveLines = mooe?.mRoads.filter((obj: any) => obj.mLanes[0].mLaneType === 1);
     const cubicCurveLines = mooe?.mRoads.filter((obj: any) => obj.mLanes[0].mLaneType === 2);
@@ -44,12 +45,20 @@ export const getSplines = (mooe: MooeDoc) => {
 
         const targetIndex = (finalQuadraticCurveIndex - index).toString(16);
 
+        const appId = `QuadraticSpline - ${targetIndex}`;
+
+        const ids = `fixed id: ${targetIndex} ${obj.mRoadID} ${obj.mLanes[0].mLaneID}`;
+
+        newDXF.tables.addAppId(`QuadraticSpline - ${targetIndex}`);
+
         const quadraticSpline = getQuadraticSpline(
             targetIndex,
             "Quadratic spline roads",
             firstPoint,
             secondPoint,
-            thirdPoint
+            thirdPoint,
+            appId,
+            ids
         );
 
         const tailPart = quadraticSpline + (index !== quadraticCurveLines.length - 1 ? "\n" : "");
@@ -87,13 +96,21 @@ export const getSplines = (mooe: MooeDoc) => {
 
         const targetIndex = (finalCubicCurveIndex - index).toString(16);
 
+        const appId = `CubicSpline - ${targetIndex}`;
+
+        const ids = `fixed id: ${targetIndex} ${obj.mRoadID} ${obj.mLanes[0].mLaneID}`;
+
+        newDXF.tables.addAppId(`CubicSpline - ${targetIndex}`);
+
         const cubicSpline = getCubicSpline(
             targetIndex,
             "Cubic spline roads",
             firstPoint,
             secondPoint,
             thirdPoint,
-            fourthPoint
+            fourthPoint,
+            appId,
+            ids
         );
 
         const tailPart = cubicSpline + (index !== cubicCurveLines.length - 1 ? "\n" : "");

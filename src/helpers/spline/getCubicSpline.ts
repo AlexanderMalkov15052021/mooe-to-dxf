@@ -1,6 +1,8 @@
 import { correctionCubicSpline, overturn } from "@/constants"
 
-export const getCubicSpline = (id: string, layerName: string, firstPoint: any, secondPoint: any, thirdPoint: any, fourthPoint: any) => {
+export const getCubicSpline = (
+  id: string, layerName: string, firstPoint: any, secondPoint: any, thirdPoint: any, fourthPoint: any, appId: string, ids: string
+) => {
   return (
 `SPLINE
   5
@@ -81,5 +83,13 @@ ${fourthPoint.x}
 ${fourthPoint.y}
  30
 0.0
+1001
+${appId}
+1002
+{
+1000
+${ids}
+1002
+}
   0`
 )}
