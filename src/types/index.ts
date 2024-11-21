@@ -162,6 +162,9 @@ export type Coords = {
 
 export type Points = {
     gates: laneMark[],
+    targetGatesPoints: laneMark[],
+    turningGatesPoints: laneMark[],
+    cacheGatesPoints: laneMark[],
     pallets: laneMark[],
     targetPalletsPoints: laneMark[],
     turningPalletsPoints: laneMark[],

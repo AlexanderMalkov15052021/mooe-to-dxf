@@ -49,12 +49,27 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
                 accum.turningPalletsPoints.push(obj);
                 return accum;
             }
+
+            if (obj.mLaneMarkName.toLowerCase().includes("gt") && obj.mLaneMarkName.toLowerCase().includes("检")) {
+                accum.targetGatesPoints.push(obj);
+                return accum;
+            }
+
+            if (obj.mLaneMarkName.toLowerCase().includes("gt") && obj.mLaneMarkName.toLowerCase().includes("前置点")) {
+                accum.turningGatesPoints.push(obj);
+                return accum;
+            }
         }
 
         if (obj.mLaneMarkType === 9) {
 
             if (!obj.mLaneMarkName.toLowerCase().includes("gt") && obj.mLaneMarkName.toLowerCase().includes("识别")) {
                 accum.cachePalletsPoints.push(obj);
+                return accum;
+            }
+
+            if (obj.mLaneMarkName.toLowerCase().includes("gt") && obj.mLaneMarkName.toLowerCase().includes("识别")) {
+                accum.cacheGatesPoints.push(obj);
                 return accum;
             }
 
@@ -94,6 +109,9 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
         return accum;
     }, {
         gates: [],
+        targetGatesPoints: [],
+        turningGatesPoints: [],
+        cacheGatesPoints: [],
         pallets: [],
         targetPalletsPoints: [],
         turningPalletsPoints: [],
@@ -212,13 +230,23 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
     });
 
-    points?.gates?.map((obj: any) => {
-        dxf.addMText(
-            { x: obj.mLaneMarkXYZW.x / scaleCorrection, y: obj.mLaneMarkXYZW.y / scaleCorrection, z: 0 },
+    points?.gates?.map((gate: any) => {
+        const mText = dxf.addMText(
+            { x: gate.mLaneMarkXYZW.x / scaleCorrection, y: gate.mLaneMarkXYZW.y / scaleCorrection, z: 0 },
             fontSize,
-            obj.mLaneMarkName,
+            gate.mLaneMarkName,
             { layerName: "Flow pallets" }
         );
+
+        const targetGatesPoint = points.targetGatesPoints.find(point => point.mLaneMarkName.includes(gate.mLaneMarkName));
+        const cacheGatesPoint = points.cacheGatesPoints.find(point => point.mLaneMarkName.includes(gate.mLaneMarkName));
+        const turningGatesPoint = points.turningGatesPoints.find(point => point.mLaneMarkName.includes(gate.mLaneMarkName));
+
+        const appId = dxf.tables.addAppId(`MText - ${mText.handle}`);
+
+        const xData = mText.addXData(appId.name);
+
+        xData.string(`fixed id: ${mText.handle} ${gate?.mLaneMarkID} ${targetGatesPoint?.mLaneMarkID} ${cacheGatesPoint?.mLaneMarkID} ${turningGatesPoint?.mLaneMarkID} `);
     });
 
     points?.pallets?.map((pallet: any) => {
