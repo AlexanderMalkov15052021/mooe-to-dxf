@@ -55,9 +55,9 @@ const UploadForm = observer(() => {
 
                 const newDXF = setData(dxf, mooeJson);
 
-                const dxfString = newDXF.stringify();
+                const splines = getSplines(mooeJson, newDXF);
 
-                const splines = getSplines(mooeJson);
+                const dxfString = newDXF.stringify();
 
                 const targetStr = dxfString.replace("ENTITIES\n0", `${splines}`);
 
