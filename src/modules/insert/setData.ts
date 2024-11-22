@@ -187,7 +187,7 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
         const xData = line.addXData(appId.name);
 
-        xData.string(`fixed id: ${line.handle} ${obj.mRoadID} ${obj.mLanes[0].mLaneID} `);
+        xData.string(`fixed id: road ${line.handle} ${obj.mRoadID} ${obj.mLanes[0].mLaneID} ${obj.mLanes[0].mStartPos} ${obj.mLanes[0].mEndPos} `);
     });
 
     roads?.palletRoads?.map((obj: any) => {
@@ -205,7 +205,7 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
         const xData = line.addXData(appId.name);
 
-        xData.string(`fixed id: ${line.handle} ${obj.road.mRoadID} ${obj.road.mLanes[0].mLaneID} `);
+        xData.string(`fixed id: road ${line.handle} ${obj.road.mRoadID} ${obj.road.mLanes[0].mLaneID} ${obj.road.mLanes[0].mStartPos} ${obj.road.mLanes[0].mEndPos} `);
 
     });
 
@@ -224,7 +224,7 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
         const xData = line.addXData(appId.name);
 
-        xData.string(`fixed id: ${line.handle} ${obj.road.mRoadID} ${obj.road.mLanes[0].mLaneID} `);
+        xData.string(`fixed id: road ${line.handle} ${obj.road.mRoadID} ${obj.road.mLanes[0].mLaneID} ${obj.road.mLanes[0].mStartPos} ${obj.road.mLanes[0].mEndPos} `);
     });
 
     roads?.chargeRoads?.map((obj: any) => {
@@ -242,7 +242,7 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
         const xData = line.addXData(appId.name);
 
-        xData.string(`fixed id: ${line.handle} ${obj.road.mRoadID} ${obj.road.mLanes[0].mLaneID} `);
+        xData.string(`fixed id: road ${line.handle} ${obj.road.mRoadID} ${obj.road.mLanes[0].mLaneID} ${obj.road.mLanes[0].mStartPos} ${obj.road.mLanes[0].mEndPos} `);
     });
 
     roads?.gateRoads?.map((obj: any) => {
@@ -260,7 +260,7 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
         const xData = line.addXData(appId.name);
 
-        xData.string(`fixed id: ${line.handle} ${obj.road.mRoadID} ${obj.road.mLanes[0].mLaneID} `);
+        xData.string(`fixed id: road ${line.handle} ${obj.road.mRoadID} ${obj.road.mLanes[0].mLaneID} ${obj.road.mLanes[0].mStartPos} ${obj.road.mLanes[0].mEndPos} `);
     });
 
     points?.gates?.map((gate: any) => {
@@ -279,7 +279,7 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
         const xData = mText.addXData(appId.name);
 
-        xData.string(`fixed id: ${mText.handle} ${gate?.mLaneMarkID} ${targetGatesPoint?.mLaneMarkID} ${cacheGatesPoint?.mLaneMarkID} ${turningGatesPoint?.mLaneMarkID} `);
+        xData.string(`fixed id: point ${mText.handle} ${gate?.mLaneMarkID} ${targetGatesPoint?.mLaneMarkID} ${cacheGatesPoint?.mLaneMarkID} ${turningGatesPoint?.mLaneMarkID} `);
     });
 
     points?.pallets?.map((pallet: any) => {
@@ -298,7 +298,7 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
         const xData = mText.addXData(appId.name);
 
-        xData.string(`fixed id: ${mText.handle} ${pallet?.mLaneMarkID} ${targetPalletsPoint?.mLaneMarkID} ${cachePalletsPoint?.mLaneMarkID} ${turningPalletsPoint?.mLaneMarkID} `);
+        xData.string(`fixed id: point ${mText.handle} ${pallet?.mLaneMarkID} ${targetPalletsPoint?.mLaneMarkID} ${cachePalletsPoint?.mLaneMarkID} ${turningPalletsPoint?.mLaneMarkID} `);
     });
 
     points?.restPoints?.map((rest: laneMark) => {
@@ -316,10 +316,11 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
         const xData = mText.addXData(appId.name);
 
-        xData.string(`fixed id: ${mText.handle} ${rest?.mLaneMarkID} ${targetRestPoint?.mLaneMarkID} ${turningRestPoint?.mLaneMarkID} `);
+        xData.string(`fixed id: point ${mText.handle} ${rest?.mLaneMarkID} ${targetRestPoint?.mLaneMarkID} ${turningRestPoint?.mLaneMarkID} `);
     });
 
     points?.chargePoints?.map((charge: any) => {
+        
         const mText = dxf.addMText(
             { x: charge.mLaneMarkXYZW.x / scaleCorrection, y: charge.mLaneMarkXYZW.y / scaleCorrection, z: 0 },
             fontSize,
@@ -334,7 +335,7 @@ export const setData = (dxf: DxfWriter, mooe: MooeDoc) => {
 
         const xData = mText.addXData(appId.name);
 
-        xData.string(`fixed id: ${mText.handle} ${charge?.mLaneMarkID} ${targetChargePoint?.mLaneMarkID} ${turningChargePoint?.mLaneMarkID} `);
+        xData.string(`fixed id: point ${mText.handle} ${charge?.mLaneMarkID} ${targetChargePoint?.mLaneMarkID} ${turningChargePoint?.mLaneMarkID} `);
     });
 
     points?.locationPoints?.map((obj: any, index: number) => {
