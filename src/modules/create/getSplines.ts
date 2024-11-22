@@ -47,7 +47,7 @@ export const getSplines = (mooe: MooeDoc, newDXF: DxfWriter) => {
 
         const appId = `QuadraticSpline - ${targetIndex}`;
 
-        const ids = `fixed id: ${targetIndex} ${obj.mRoadID} ${obj.mLanes[0].mLaneID}`;
+        const ids = `fixed id: road ${targetIndex} ${obj.mRoadID} ${obj.mLanes[0].mLaneID} ${obj.mLanes[0].mStartPos} ${obj.mLanes[0].mEndPos} `;
 
         newDXF.tables.addAppId(`QuadraticSpline - ${targetIndex}`);
 
@@ -98,7 +98,7 @@ export const getSplines = (mooe: MooeDoc, newDXF: DxfWriter) => {
 
         const appId = `CubicSpline - ${targetIndex}`;
 
-        const ids = `fixed id: ${targetIndex} ${obj.mRoadID} ${obj.mLanes[0].mLaneID}`;
+        const ids = `fixed id: road ${targetIndex} ${obj.mRoadID} ${obj.mLanes[0].mLaneID} ${obj.mLanes[0].mStartPos} ${obj.mLanes[0].mEndPos} `;
 
         newDXF.tables.addAppId(`CubicSpline - ${targetIndex}`);
 
